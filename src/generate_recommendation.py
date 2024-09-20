@@ -8,7 +8,7 @@ This file contains a standalone code to generate recommendations for outfits.
 It will implement a greedy algorithm to find the best outfit to maximize utility(maximum summition of goodness score for n days).
 These are the following constraints that this code needs to handle :-
 1. Ensure plan is generated for n days
-2. No 2 shits/pants are continued
+2. No 2 shirts/pants are continued
 3. If only_wear_once is True then if a shirt/pant is recommended once then don't recommend again
 
 ================================================
