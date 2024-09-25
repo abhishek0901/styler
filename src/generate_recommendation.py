@@ -59,7 +59,7 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
     if num_clothes == 0:
         raise ValueError("num_clothes should be non zero.")
     
-    goodness_list: list[Outfit] = [Outfit(shirt_index=i,pant_index=j,score=_calculate_score(goodness_list[i,j], U[i], U[j])) for i in num_clothes for j in num_clothes]
+    goodness_list: list[Outfit] = [Outfit(shirt_index=i,pant_index=j,score=_calculate_score(G[i,j], U[i], U[j])) for i in range(num_clothes) for j in range(num_clothes)]
 
     # Sort list
     goodness_list = sorted(goodness_list, key=lambda x: x.score, reverse=True)
@@ -102,6 +102,7 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
                 if valid_index[j]:
                     current_index = j
                     current_index_updated = True
+                    break
         
         # If nothing to explore then repeat
         if not current_index_updated:
@@ -117,4 +118,19 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
 
 
 if __name__ == "__main__":
-    print("Hello World!")
+    G = np.array(
+        [
+            [-np.inf,1e-5,0.8,0.65],
+            [1e-5, -np.inf, 0.98, 0.4],
+            [0.8, 0.98, -np.inf, 1e-4],
+            [0.65, 0.4, 1e-4, -np.inf]
+        ]
+    )
+
+    U = np.array([1,1,1,1])
+
+    n = 5
+
+    result = generate_recommendation(G, U, n)
+
+    print(result)
