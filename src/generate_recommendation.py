@@ -98,6 +98,10 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
 
         # no cloth left to explore
         if not current_index_updated:
+            if only_wear_once:
+                if len(result) != n:
+                    print("Not able to generate required recommendations.")
+                return result
             for j in range(len(valid_index)):
                 if valid_index[j]:
                     current_index = j
@@ -107,7 +111,7 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
         # If nothing to explore then repeat
         if not current_index_updated:
             curr_length = len(result)
-            temp_recommendation = copy(result)
+            temp_recommendation = copy.copy(result)
             current_index = 0
             while len(result) != n:
                 result.append(temp_recommendation[current_index])
@@ -121,16 +125,16 @@ if __name__ == "__main__":
     G = np.array(
         [
             [-np.inf,1e-5,0.8,0.65],
-            [1e-5, -np.inf, 0.98, 0.4],
-            [0.8, 0.98, -np.inf, 1e-4],
-            [0.65, 0.4, 1e-4, -np.inf]
+            [-np.inf, -np.inf, 0.98, 0.4],
+            [-np.inf, -np.inf, -np.inf, 1e-4],
+            [-np.inf, -np.inf, -np.inf, -np.inf]
         ]
     )
 
-    U = np.array([1,1,1,1])
+    U = np.array([1/8,1,1/2,1])
 
     n = 5
 
-    result = generate_recommendation(G, U, n)
+    result = generate_recommendation(G, U, n, only_wear_once=False)
 
     print(result)
