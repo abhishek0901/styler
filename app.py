@@ -4,16 +4,16 @@ import gradio as gr
 def process_json_list(input_json):
     # Assuming input_json is a list of dictionaries
     # You can add your processing logic here
-    return {"message": "Received!", "data": input_json}
+    return {"message": "Received!"}
 
 # Set up the Gradio interface
 iface = gr.Interface(
     fn=process_json_list,
-    inputs=gr.JSON(label="Input List of JSON Dictionaries"),
+    inputs=gr.Image(label="Input Image"),
     outputs=gr.JSON(label="Output JSON"),
     title="List of JSON Dictionaries Example",
     description="Input a list of JSON objects and see the output."
 )
 
 # Launch the interface
-iface.launch()
+iface.launch(share=True)
