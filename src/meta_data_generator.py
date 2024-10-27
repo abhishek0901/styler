@@ -156,7 +156,7 @@ def get_image_from_path(image_path: str):
 def get_info_for_single_image(image_path, clf):
     original_image = get_image_from_path(image_path)
 
-    md = clf.get_metadata(original_image, find_color='nearest')
+    md = clf.get_metadata(original_image, find_color='average')
     md_df = pd.DataFrame(md)
     idx = md_df.groupby("top_category")["condifence"].transform(max) == md_df['condifence']
     md_df = md_df[idx]

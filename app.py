@@ -1,21 +1,19 @@
 import gradio as gr
-import pandas as pd
-import numpy as np
-import joblib, os
 
-def get_str(name):
-    return f"Hello {name}"
+# Function to process the list of JSON dictionaries
+def process_json_list(input_json):
+    # Assuming input_json is a list of dictionaries
+    # You can add your processing logic here
+    return {"message": "Received!", "data": input_json}
 
-def predict(name):
-    response = get_str(name)
+# Set up the Gradio interface
+iface = gr.Interface(
+    fn=process_json_list,
+    inputs=gr.JSON(label="Input List of JSON Dictionaries"),
+    outputs=gr.JSON(label="Output JSON"),
+    title="List of JSON Dictionaries Example",
+    description="Input a list of JSON objects and see the output."
+)
 
-    return response
-
-
-demo = gr.Interface(fn=predict, inputs="textbox", outputs="textbox")
-
-if __name__ == "__main__":
-    demo.launch()
-
-
-# curl -X POST -H 'Content-type: application/json' --data '{ "data": ["Jill"] }' https://abhi995-styler.hf.space//gradio_api/queue/join
+# Launch the interface
+iface.launch()

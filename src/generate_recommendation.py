@@ -20,7 +20,7 @@ from collections import defaultdict
 import copy
 
 # TODO: Find better ways to calculate this value.
-MIN_GOODNESS = 0.01
+MIN_GOODNESS = 0.097 * 1/256
 
 @dataclass
 class Outfit:
@@ -124,17 +124,19 @@ def generate_recommendation(G:np.ndarray, U:np.ndarray, n: int, only_wear_once: 
 if __name__ == "__main__":
     G = np.array(
         [
-            [-np.inf,1e-5,0.8,0.65],
-            [-np.inf, -np.inf, 0.98, 0.4],
-            [-np.inf, -np.inf, -np.inf, 1e-4],
+            [-np.inf,0.00980197,0.00980101,-np.inf],
+            [-np.inf, -np.inf, -np.inf, 0.01372665],
+            [-np.inf, -np.inf, -np.inf, 0.0097767],
             [-np.inf, -np.inf, -np.inf, -np.inf]
         ]
     )
 
-    U = np.array([1/8,1,1/2,1])
+    U = np.array([1/4,1/4,1/8,1/4])
 
     n = 5
 
-    result = generate_recommendation(G, U, n, only_wear_once=False)
+    image_order = ['khaki_pant', 'blue_shirt', 'green_shirt', 'light_pant']
 
-    print(result)
+    result = generate_recommendation(G, U, n, only_wear_once=False)
+    result_to_name = [(image_order[t[0]], image_order[t[1]]) for t in result]
+    print(result_to_name)
