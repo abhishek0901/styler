@@ -169,10 +169,10 @@ class MaskNClassifier:
         return metadata
 
 
-@app.function(image=image)
+@app.function(image=image, container_idle_timeout=IDLE_TIMEOUT_TIME)
 @modal.asgi_app()
 def fastapi_app():
-    from fastapi import FastAPI, File, UploadFile
+    from fastapi import FastAPI, File, HTTPException, UploadFile
     from fastapi.responses import JSONResponse
 
     web_app = FastAPI()
@@ -187,7 +187,7 @@ def fastapi_app():
             metadata = mask_classifier.get_metadata.remote(image_array=img)
         except Exception as e:
             logger.error(e, exc_info=True)
-            return {"message": "error", "body": str(e), "status": 500}
+            raise HTTPException(status_code=400, detail=str(e))
         finally:
             file.file.close()
 
